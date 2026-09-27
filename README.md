@@ -1,6 +1,6 @@
-# MIS Modern Systems Interface Homepage
+# MIS Solutions Website Refresh
 
-Standalone redesign workspace for `MIS-11`, implementing the approved one-page MIS homepage in the selected Option C direction.
+Standalone redesign workspace for MIS Solutions, implementing a customer-facing brochure site with a shared visual system and deeper navigation.
 
 ## Repo location
 
@@ -8,8 +8,11 @@ Standalone redesign workspace for `MIS-11`, implementing the approved one-page M
 
 ## Files
 
-- `index.html` contains the one-page homepage.
-- `styles.css` contains the visual system and responsive layout.
+- `index.html` contains the homepage.
+- `services.html` contains the service overview and advisory detail.
+- `about.html` contains the company story and positioning.
+- `contact.html` contains the contact path and engagement prompts.
+- `styles.css` contains the shared visual system and responsive layout.
 - `assets/mis-logo.png` packages the official MIS logo lockup used in the header.
 
 ## Run locally
@@ -26,8 +29,8 @@ Then open `http://localhost:4173`.
 
 ## Notes
 
-- The page keeps the approved `mailto:info@misfirm.com` contact route.
-- The layout preserves the `v2.html` section sequence: hero, services, AI note, story, and contact CTA.
+- The site keeps the approved `mailto:info@misfirm.com` contact route.
+- The visual direction uses MIS navy and orange across all pages.
 - No customer logos, partner badges, certifications, or unsupported metrics were added.
 
 ## Remaining gaps

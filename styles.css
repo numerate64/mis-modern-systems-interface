@@ -174,7 +174,8 @@ ul {
 }
 
 .site-nav a:hover,
-.site-nav a:focus-visible {
+.site-nav a:focus-visible,
+.site-nav a[aria-current="page"] {
   color: var(--navy);
   background: rgba(9, 19, 90, 0.05);
   border-color: rgba(9, 19, 90, 0.08);
@@ -199,7 +200,11 @@ ul {
 .story-card,
 .side-card,
 .cta-card,
-.signal-band {
+.signal-band,
+.page-intro,
+.detail-card,
+.note-card,
+.feature-band {
   padding: clamp(1.4rem, 3vw, 2rem);
 }
 
@@ -243,33 +248,61 @@ ul {
   font-size: 0.78rem;
 }
 
-.panel-hero h1 {
+.panel-hero h1,
+.page-intro h1 {
   position: relative;
   z-index: 1;
-  max-width: 11ch;
   margin-top: 1.1rem;
   font-family: var(--display);
-  font-size: clamp(3rem, 5.4vw, 5.4rem);
   line-height: 0.93;
 }
 
+.panel-hero h1 {
+  max-width: 11ch;
+  font-size: clamp(3rem, 5.4vw, 5.4rem);
+}
+
+.page-intro {
+  margin-top: 1.2rem;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(241, 245, 251, 0.94) 100%);
+}
+
+.page-intro h1 {
+  max-width: 15ch;
+  color: var(--navy);
+  font-size: clamp(2.5rem, 4.5vw, 4.25rem);
+}
+
 .lede,
+.page-lede,
 .panel-hero p,
 .panel-rail p,
 .service-card p,
 .story-card p,
 .side-card p,
-.cta-card p {
+.cta-card p,
+.detail-card p,
+.note-card p,
+.feature-band p {
   position: relative;
   z-index: 1;
   line-height: 1.72;
 }
 
-.lede {
-  max-width: 58ch;
+.lede,
+.page-lede {
   margin-top: 1rem;
-  color: rgba(255, 255, 255, 0.84);
+  max-width: 60ch;
   font-size: 1.05rem;
+}
+
+.lede {
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.page-lede {
+  color: var(--muted);
 }
 
 .hero-actions {
@@ -311,12 +344,16 @@ ul {
   color: #ffffff;
 }
 
-.hero-tags {
-  position: relative;
-  z-index: 1;
+.hero-tags,
+.surface-links {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+}
+
+.hero-tags {
+  position: relative;
+  z-index: 1;
   margin-top: 1.4rem;
 }
 
@@ -336,7 +373,9 @@ ul {
   font-size: 0.92rem;
 }
 
-.hero-rail {
+.hero-rail,
+.story-rail,
+.contact-rail {
   display: grid;
   gap: 1rem;
 }
@@ -350,12 +389,25 @@ ul {
 .section-heading h2,
 .signal-band h2,
 .story-card h2,
-.cta-card h2 {
+.cta-card h2,
+.detail-card h2,
+.note-card h2,
+.feature-band h2 {
   margin-top: 0.7rem;
   font-family: var(--display);
   font-size: clamp(1.8rem, 3vw, 2.8rem);
   line-height: 1.02;
   letter-spacing: 0.02em;
+}
+
+.detail-card h3,
+.contact-block h3 {
+  margin-top: 1.1rem;
+  font-family: var(--display);
+  font-size: 1.02rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--navy);
 }
 
 .panel-rail-accent {
@@ -379,7 +431,10 @@ ul {
 }
 
 .service-grid,
-.story-grid {
+.story-grid,
+.detail-grid,
+.two-up-grid,
+.contact-grid {
   display: grid;
   gap: 1rem;
   margin-top: 1rem;
@@ -389,9 +444,29 @@ ul {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.service-card {
+.detail-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.two-up-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.contact-grid {
+  grid-template-columns: minmax(0, 1.12fr) minmax(280px, 0.88fr);
+}
+
+.service-card,
+.detail-card,
+.story-card,
+.note-card {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 247, 251, 0.94));
+}
+
+.side-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 242, 233, 0.86));
 }
 
 .service-label,
@@ -417,27 +492,33 @@ ul {
 .signal-list li,
 .service-card li,
 .cta-card li,
-.timeline p {
+.timeline p,
+.detail-card li,
+.note-card p {
   color: var(--muted);
 }
 
 .service-card p,
 .service-card ul,
 .story-card .timeline,
-.cta-card ul {
+.cta-card ul,
+.detail-card ul,
+.contact-block {
   margin-top: 0.95rem;
 }
 
 .signal-list,
 .service-card ul,
-.cta-card ul {
+.cta-card ul,
+.check-list {
   display: grid;
   gap: 0.8rem;
 }
 
 .signal-list li,
 .service-card li,
-.cta-card li {
+.cta-card li,
+.check-list li {
   position: relative;
   padding-left: 1.25rem;
   line-height: 1.6;
@@ -445,7 +526,8 @@ ul {
 
 .signal-list li::before,
 .service-card li::before,
-.cta-card li::before {
+.cta-card li::before,
+.check-list li::before {
   content: "";
   position: absolute;
   left: 0;
@@ -457,15 +539,19 @@ ul {
   box-shadow: 0 0 0 5px rgba(243, 107, 33, 0.12);
 }
 
-.signal-band {
+.signal-band,
+.feature-band {
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
   gap: 1rem;
   align-items: start;
+  box-shadow: var(--shadow);
+}
+
+.signal-band {
+  grid-template-columns: 220px minmax(0, 1fr);
   background:
     linear-gradient(120deg, rgba(6, 13, 51, 0.98) 0%, rgba(9, 19, 90, 0.94) 46%, rgba(243, 107, 33, 0.9) 100%);
   color: #ffffff;
-  box-shadow: var(--shadow);
 }
 
 .signal-band .section-kicker,
@@ -473,18 +559,26 @@ ul {
   color: rgba(255, 255, 255, 0.8);
 }
 
+.feature-band {
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+  background:
+    linear-gradient(135deg, rgba(6, 13, 51, 0.98) 0%, rgba(9, 19, 90, 0.94) 52%, rgba(243, 107, 33, 0.86) 100%);
+  color: #ffffff;
+}
+
+.feature-band .section-kicker,
+.feature-band p,
+.feature-band li {
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.feature-band .signal-list li::before {
+  background: linear-gradient(135deg, #ffffff, #ffd4be);
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.12);
+}
+
 .story-grid {
   grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.78fr);
-}
-
-.story-rail {
-  display: grid;
-  gap: 1rem;
-}
-
-.story-card {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(239, 243, 250, 0.94));
 }
 
 .timeline {
@@ -507,7 +601,7 @@ ul {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 2.4rem;
+  min-width: 2.6rem;
   padding: 0.35rem 0.45rem;
   border-radius: 999px;
   background: var(--navy);
@@ -528,15 +622,7 @@ ul {
   margin-top: 0.45rem;
 }
 
-.side-card {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 242, 233, 0.86));
-}
-
 .surface-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem;
   margin-top: 1rem;
 }
 
@@ -569,8 +655,13 @@ ul {
   text-transform: uppercase;
 }
 
-.cta-side .button {
+.cta-side .button,
+.detail-card .button {
   margin-top: 1rem;
+}
+
+.contact-block {
+  padding-top: 0.25rem;
 }
 
 .site-footer {
@@ -582,6 +673,11 @@ ul {
   padding: 0 0.2rem;
   color: var(--muted);
   font-size: 0.92rem;
+}
+
+.site-footer p {
+  max-width: 60ch;
+  line-height: 1.6;
 }
 
 .footer-links {
@@ -598,7 +694,11 @@ ul {
   .hero,
   .signal-band,
   .story-grid,
-  .cta-card {
+  .cta-card,
+  .detail-grid,
+  .two-up-grid,
+  .contact-grid,
+  .feature-band {
     grid-template-columns: 1fr;
   }
 
@@ -646,13 +746,22 @@ ul {
   .story-card,
   .side-card,
   .cta-card,
-  .signal-band {
+  .signal-band,
+  .page-intro,
+  .detail-card,
+  .note-card,
+  .feature-band {
     border-radius: 24px;
   }
 
   .panel-hero h1 {
     max-width: 12ch;
     font-size: clamp(2.35rem, 12vw, 3.45rem);
+  }
+
+  .page-intro h1 {
+    max-width: 100%;
+    font-size: clamp(2.2rem, 10vw, 3.2rem);
   }
 
   .site-footer {
