@@ -10,7 +10,7 @@ Standalone redesign workspace for `MIS-11`, implementing the approved one-page M
 
 - `index.html` contains the one-page homepage.
 - `styles.css` contains the visual system and responsive layout.
-- `assets/mis-logo.svg` packages the official MIS logo lockup with the site.
+- `assets/mis-logo.png` packages the official MIS logo lockup used in the header.
 
 ## Run locally
 
