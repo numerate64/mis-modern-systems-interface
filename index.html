@@ -25,8 +25,8 @@
           <a aria-current="page" href="index.html">Home</a>
           <a href="services.html">Services</a>
           <a href="about.html">About</a>
-          <a href="contact.html">Contact</a>
-          <a class="nav-accent" href="https://www.linkedin.com/company/mis-solutions-llc/">LinkedIn</a>
+          <a class="nav-cta" href="contact.html">Let&rsquo;s talk <span aria-hidden="true">↗</span></a>
+          <a class="nav-external" href="https://www.linkedin.com/company/mis-solutions-llc/" aria-label="MIS Solutions on LinkedIn">in</a>
         </nav>
       </header>
 
@@ -55,15 +55,15 @@
             </ul>
           </div>
 
-          <aside class="hero-rail">
+          <aside class="hero-rail" aria-label="MIS engagement approach">
             <section class="panel panel-rail">
               <p class="section-kicker">What clients need most</p>
               <h2>Move forward without guessing which platform decision should come first.</h2>
-              <ul class="signal-list">
-                <li>Clarify priorities across migration, modernization, and day-two operations.</li>
-                <li>Improve governance and collaboration control without slowing the business down.</li>
-                <li>Evaluate AI initiatives from a secure, supportable foundation.</li>
-              </ul>
+              <div class="decision-path">
+                <div><span>01</span><p>Clarify priorities across migration, modernization, and day-two operations.</p></div>
+                <div><span>02</span><p>Improve governance without slowing the business down.</p></div>
+                <div><span>03</span><p>Evaluate AI from a secure, supportable foundation.</p></div>
+              </div>
             </section>
 
             <section class="panel panel-rail panel-rail-accent">
@@ -78,6 +78,13 @@
           </aside>
         </section>
 
+        <section class="trust-strip shell" aria-label="MIS Solutions experience and focus">
+          <p><strong>25+ years</strong><span>of infrastructure perspective</span></p>
+          <p><strong>AWS + Azure</strong><span>modernization planning</span></p>
+          <p><strong>Microsoft 365</strong><span>governance advisory</span></p>
+          <p><strong>AI readiness</strong><span>grounded in reality</span></p>
+        </section>
+
         <section class="section shell">
           <div class="section-heading">
             <p class="section-kicker">Decision support</p>
@@ -90,7 +97,7 @@
           </div>
 
           <div class="service-grid">
-            <article class="panel service-card">
+            <article class="panel service-card" data-index="01">
               <p class="service-label">Cloud foundations</p>
               <h3>AWS and Azure modernization planning</h3>
               <p>
@@ -104,7 +111,7 @@
               </ul>
             </article>
 
-            <article class="panel service-card">
+            <article class="panel service-card" data-index="02">
               <p class="service-label">Microsoft ecosystems</p>
               <h3>Microsoft 365 and governance advisory</h3>
               <p>
@@ -118,7 +125,7 @@
               </ul>
             </article>
 
-            <article class="panel service-card">
+            <article class="panel service-card" data-index="03">
               <p class="service-label">What comes next</p>
               <h3>Practical AI readiness</h3>
               <p>
