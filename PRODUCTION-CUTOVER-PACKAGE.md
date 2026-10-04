@@ -1,71 +1,53 @@
-# misfirm.com production cutover package
+# misfirm.com production cutover record
 
-Prepared 2026-10-02 for the approved website revision. This package is operational guidance only; it does not authorize or perform a DNS change.
+Updated 2026-10-03 after the Chief of Staff completed the production DNS change. This document records the observed configuration and approved operating decisions. Jordan Hale did not change DNS or production hosting.
 
 ## Decision
 
-**NO-GO until Route 53 hosted-zone access is confirmed and the current apex and `www` record sets are exported for rollback.**
+**CUTOVER COMPLETE — GO for the explicitly approved apex-only configuration, with accepted rollback and `www` risks.**
 
-The owner-approved website, source revision, GitHub repository administration, Pages deployment, and rollback sequence are otherwise ready. Do not begin the custom-domain or DNS steps until the remaining gate is closed.
+The earlier release candidate in this repository and its original NO-GO gate were superseded when the Chief of Staff selected the outside firm's one-page GitHub Pages site and performed the Route 53 update. The production source identified by the Chief of Staff is <https://numerate64.github.io/misfirm.com/>. This repository's approved preview remains a historical release candidate and is not the source currently served at `misfirm.com`.
 
-## Approved release
+## As-built production configuration
+
+- Canonical production URL: <https://misfirm.com>
+- Scope: apex only; the Chief of Staff explicitly decided that `www.misfirm.com` is unsupported.
+- DNS: Route 53 non-alias A record, Simple routing, TTL 300, no health check shown.
+- A values: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, and `185.199.111.153`.
+- Hosting observed: GitHub Pages (`server: GitHub.com`).
+- Site architecture observed: one-page site with `#services`, `#about`, `#approach`, and `#contact` anchors; separate `/services`, `/about`, and `/contact` routes are not part of this production build.
+
+The Route 53 values above were confirmed from the Chief of Staff's attached console screenshot and matched public DNS. Repository administration for `numerate64/mis-modern-systems-interface` was previously confirmed, but it does not establish administration of the separately selected production source.
+
+## Verification
+
+Verified read-only on 2026-10-03 EDT:
+
+- `https://misfirm.com` returns HTTP 200 over HTTPS from GitHub Pages.
+- Public apex DNS returns all four GitHub Pages A records.
+- `www.misfirm.com` has no public A, AAAA, or CNAME response, consistent with the approved apex-only decision.
+- The Route 53 screenshot shows Simple routing, TTL 300, and no health check for the apex A record.
+- Production DNS and hosting were not changed during preparation or this verification.
+
+## Rollback posture
+
+The Chief of Staff explicitly decided that no rollback window is required and no former distribution must be kept warm. If rollback is later required, the stated fallback is to re-enable the former CloudFront endpoint to its S3 bucket and restore its Route 53 target.
+
+That fallback was not independently tested, and the former target values were not preserved in this package. It is therefore a recovery concept, not a ready or time-bounded rollback procedure. An authorized Route 53/CloudFront operator must identify and validate the former distribution before relying on it.
+
+## Accepted and residual risks
+
+- `www.misfirm.com` does not resolve by explicit decision; visitors using `www` will fail to reach the site.
+- There is no maintained rollback window or tested rollback procedure.
+- The selected production source is outside this repository, so the repository access verified for the historical release candidate does not prove access to update or recover production.
+- The production footer links to `linkedin.com/company/misfirm/`, while the company-designated canonical LinkedIn page is `linkedin.com/company/mis-solutions-llc/`. This should be corrected in the production source by its owner.
+- The selected production site is a one-page build; direct multi-page paths from the superseded preview return HTTP 404 and should not be advertised.
+
+## Historical release candidate
 
 - Repository: <https://github.com/numerate64/mis-modern-systems-interface>
-- Approved commit: [`38631722bb649fd4df6ca0506d455b5121d24fa4`](https://github.com/numerate64/mis-modern-systems-interface/commit/38631722bb649fd4df6ca0506d455b5121d24fa4)
+- Original owner-approved revision: [`38631722bb649fd4df6ca0506d455b5121d24fa4`](https://github.com/numerate64/mis-modern-systems-interface/commit/38631722bb649fd4df6ca0506d455b5121d24fa4)
+- Final preview revision before the outside-site selection: [`45b01a0b7f7f0d950afdf0091dfe67378fa6d95e`](https://github.com/numerate64/mis-modern-systems-interface/commit/45b01a0b7f7f0d950afdf0091dfe67378fa6d95e)
 - Preview: <https://numerate64.github.io/mis-modern-systems-interface/>
-- Production site before cutover: <https://misfirm.com>
 
-## Verified production configuration
-
-- `main` and `origin/main` both resolve to the approved commit.
-- GitHub reports repository permissions `admin`, `maintain`, and `push` for the connected operator.
-- GitHub Pages is built from `main` at `/`; the preview is live and no custom domain is currently configured (`cname: null`).
-- The homepage, Services, About, and Contact preview URLs return HTTP 200.
-- Existing `misfirm.com` and `www.misfirm.com` currently resolve to AWS/CloudFront addresses. They were inspected read-only and were not changed.
-- No root `CNAME` file exists at the approved commit. Adding it is part of the authorized cutover, not preparation.
-
-## Preflight gate
-
-The release operator must check every item immediately before cutover:
-
-- [x] Owner approval identifies the preview and approved commit above.
-- [x] Connected GitHub operator has repository administration access.
-- [x] Pages source is `main` and `/`, and the approved preview is healthy.
-- [ ] Route 53 operator can open the authoritative `misfirm.com` hosted zone and change records.
-- [ ] Export or screenshot the complete current apex and `www` record sets, preserving type, value/alias target, routing policy, health-check/evaluate-target-health settings, and TTL.
-- [ ] Confirm the former production distribution remains available during the rollback window.
-- [ ] Confirm `info@misfirm.com` is monitored.
-- [ ] Name the cutover operator and rollback decision-maker and agree on an observation window.
-
-## Cutover procedure
-
-1. Save the current apex and `www` record-set export outside the repository. Do not alter MX, TXT, SPF, DKIM, DMARC, or unrelated records.
-2. If supported by the current records, lower only the web-record TTLs to 300 seconds at least one existing TTL window before cutover.
-3. Add a root `CNAME` file containing exactly `misfirm.com` to `main`, then wait for the Pages build to pass.
-4. In **Settings → Pages**, set the custom domain to `misfirm.com`.
-5. At execution time, use GitHub's current official Pages documentation for the apex record targets; do not copy hard-coded IP addresses from an old runbook.
-6. Replace only the apex web records in Route 53. Set `www.misfirm.com` to CNAME `numerate64.github.io`.
-7. Verify apex and `www` through at least two public resolvers. Load all four production pages over HTTP and HTTPS.
-8. When GitHub reports the certificate ready, enable **Enforce HTTPS** and verify the canonical-host redirect and certificate.
-9. Smoke-test navigation, favicon/logo, LinkedIn, and `mailto:info@misfirm.com` on desktop and a real mobile device.
-10. After the agreed stable observation window, restore normal TTLs and record the final values and timestamps.
-
-## Rollback decision and procedure
-
-Rollback immediately if DNS resolution, TLS issuance, canonical redirects, page rendering, navigation, or the contact path fails during the observation window.
-
-1. Restore the saved Route 53 apex and `www` record sets exactly, including aliases, routing policies, health-check settings, and TTLs. Do not touch email or unrelated records.
-2. Verify the former production host at both apex and `www` over HTTPS through multiple public resolvers.
-3. Remove or change the Pages custom domain only after DNS restoration is confirmed. Keep the repository and approved commit available for diagnosis.
-4. For a code-only defect after a successful domain/TLS cutover, revert the defective launch commit and let Pages redeploy; retain the custom domain. Use DNS rollback for routing, hosting, or TLS failures.
-5. Record the trigger, decision time, records restored, verification results, and follow-up owner before another attempt.
-
-## Residual, non-blocking items
-
-- The repository requests `Quivera Regular` but does not contain a licensed webfont, so fallback fonts render today.
-- Approved Open Graph image/copy is not yet present.
-- The final real-device smoke test necessarily occurs after custom-domain and TLS activation.
-
-## Unblock owner and action
-
-Chief of Staff: provide or assign an authorized Route 53 operator who can confirm access to the `misfirm.com` hosted zone and attach a sanitized export of the current apex and `www` web record configuration. Once that evidence exists, the cutover package changes from **NO-GO** to **GO**, subject to the preflight checklist.
+No further cutover action is required by this package. Any correction to `www`, the LinkedIn destination, production-source access, or rollback readiness should be handled as separately authorized follow-up work.
